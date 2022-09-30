@@ -10,74 +10,14 @@ author: Aleksandar Trkulja
 version_added: "1.0"
 short_description: lookup passwords in Pleasant Password server by GUID.  
    This is using Python Requests https://docs.python-requests.org/en/latest/api/
-description:
-    - Returns the content of the URL requested to be used as data in play.
-options:
-  _terms:
-    description: Pleasant Entry GUID
-  pleasant_verify:
-    description: Flag to control SSL certificate validation.  Set to the path to the ca bundle ( /etc/ssl/certs/ca-bundle.crt ) or true
-    default: True
-    vars:
-      - name: pleasant_lookup_ca_path
-    env:
-      - name: PLEASANT_LOOKUP_CA_PATH
-    ini:
-      - section: pleasant_lookup
-        key: ca_path
-  pleasant_username:
-    description: Username to authenticate to Pleasant
-    type: string
-  pleasant_password:
-    description: Password to authenticate to Pleasant
-    type: str
-  headers:
-    description: HTTP request headers
-    type: dictionary
-    default: {Content-Type: application/json}
-    version_added: "2.8"
-  force:
-    description: Whether or not to set "cache-control" header with value "no-cache"
-    type: boolean
-    default: False
-  timeout:
-    description: How long to wait for the server to send data before giving up
-    type: float
-    default: 5
-    vars:
-      - name: pleasant_lookup_timeout
-    env:
-      - name: PLEASANT_LOOKUP_TIMEOUT
-    ini:
-      - section: pleasant_lookup
-        key: timeout
 """
 
 EXAMPLES = """
-
-- name: password
-  debug: msg="{{ lookup('tombosmansibm.pleasant_lookup.password', pleasant_host='https://pleasant.com:10001', username='bob', password='hunter2', pleasant_search='itemname') }}"
-
-# lookup example with search parameter and filter on username and path, with reference to the ca bundle of the system.
-- name: Lookup
-  run_once: True
-  debug:
-    msg: "{{ lookup('tombosmansibm.pleasant_lookup.password', pleasant_host='https://pleasant.com:10001', username='myuser', password='mypassword', pleasant_filter_path='Root/DEV/', 
-       pleasant_filter_username='root', pleasant_search='root', verify='/etc/ssl/certs/ca-bundle.crt', timeout=2) }}"
-  delegate_to: localhost
-
-The result is a list of items:
-        [{
-            "password": "the password",
-            "path": "Root/Path/",
-            "username": "the username"
-        }]
-
 """
 
 RETURN = """
   _list:
-    description: list of password objects: {username, password, path}
+    description: list of password objects: {username, password}
     type: list
     elements: dict
 """
